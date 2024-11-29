@@ -27,7 +27,6 @@ public class House : UsingScript
             Destroy(scrollElement.cell.GetComponent<Cell>());
         }
 
-        Destroy(scrollElement.cell.GetComponent<ScrollElement>());
     }
 
     public override void Upgrade(BuildingManager buildingManager)

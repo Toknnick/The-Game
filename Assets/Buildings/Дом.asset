@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites:
   - {fileID: 21300000, guid: fbd15a1cc0022a0489008abd49d039c3, type: 3}
-  - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 21300000, guid: fbd15a1cc0022a0489008abd49d039c3, type: 3}
   usingScript: {fileID: -3532946970368583186, guid: 1dc1a9206bdf29d49901847254a2c44a, type: 3}
-  gpm: 500
+  gpm: 0
   coast: 500
   maxLVL: 2
   lvlUpCoast: 1000
-  addingGpm: 2000
+  addingGpm: 0
