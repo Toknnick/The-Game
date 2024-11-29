@@ -20,7 +20,7 @@ public class BuildingInfoPanel : MonoBehaviour
     public void GetBuildingManager(BuildingManager buildingManager)
     {
         this.buildingManager = buildingManager;
-        setInfo();
+        SetInfo();
     }
 
     public void ClosePanel()
@@ -42,7 +42,7 @@ public class BuildingInfoPanel : MonoBehaviour
         ClosePanel();
     }
 
-    private void setInfo()
+    private void SetInfo()
     {
         BuildingImage.sprite = buildingManager.building.sprites[buildingManager.nowLVL - 1];
 
