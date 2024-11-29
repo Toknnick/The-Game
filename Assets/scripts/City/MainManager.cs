@@ -7,22 +7,21 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
-    [SerializeField] private float startGold = 1000;
-    [SerializeField] private float startGpm = 10;
-    [Space]
     [SerializeField] private Balancer balancer;
     [SerializeField] private BuildingInfoPanel buildingInfoPanel;
     [SerializeField] private GameObject scrollView;
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Transform scrollViewContent;
+    [Space]
     [SerializeField] private List<Building> buildings;
+    [SerializeField] private SpeakingHeadmanager speakingHead;
 
     private float nowGPM = 0;
     private float nowGold = 0;
     void Start()
     {
-        nowGold = startGold;
-        nowGPM = startGpm;
+        nowGold = balancer.startGold;
+        nowGPM = balancer.startGpm;
         goldText.text = nowGold.ToString();
         SetFromBalancer();
         StartCoroutine(SetGold());
