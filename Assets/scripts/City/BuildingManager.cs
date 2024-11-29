@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LVLUpper : MonoBehaviour
+public class BuildingManager : MonoBehaviour
 {
     public MainManager mainManager;
     public GameObject cell;
@@ -17,6 +17,6 @@ public class LVLUpper : MonoBehaviour
 
     private void HandleClick()
     {
-        mainManager.Upgrade(this);
+        mainManager.OpenBuildingInfoPanel(this);
     }
 }

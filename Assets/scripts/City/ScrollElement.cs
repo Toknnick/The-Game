@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScrollElement : MonoBehaviour
 {
     public MainManager mainManager;
-    public LVLUpper lVLUpper;
+    public BuildingManager buildingManager;
     public GameObject cell;
     public Building building;
 

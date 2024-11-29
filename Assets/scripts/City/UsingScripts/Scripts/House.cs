@@ -18,24 +18,24 @@ public class House : UsingScript
 
         if (scrollElement.building.maxLVL > 1)
         {
-            scrollElement.lVLUpper = scrollElement.cell.AddComponent<LVLUpper>();
-            scrollElement.lVLUpper.mainManager = mainManager;
-            scrollElement.lVLUpper.building = scrollElement.building;
-            scrollElement.lVLUpper.cell = scrollElement.cell;
-            scrollElement.lVLUpper.nowGPM = scrollElement.building.gpm;
-            scrollElement.lVLUpper.nowLVL = 1;
+            scrollElement.buildingManager = scrollElement.cell.AddComponent<BuildingManager>();
+            scrollElement.buildingManager.mainManager = mainManager;
+            scrollElement.buildingManager.building = scrollElement.building;
+            scrollElement.buildingManager.cell = scrollElement.cell;
+            scrollElement.buildingManager.nowGPM = scrollElement.building.gpm;
+            scrollElement.buildingManager.nowLVL = 1;
             Destroy(scrollElement.cell.GetComponent<Cell>());
         }
 
         Destroy(scrollElement.cell.GetComponent<ScrollElement>());
     }
 
-    public override void Upgrade(LVLUpper lVLUpper)
+    public override void Upgrade(BuildingManager buildingManager)
     {
         FirstStart();
-        mainManager.ChangeGPM(lVLUpper.building.addingGpm);
-        lVLUpper.nowGPM += lVLUpper.building.addingGpm;
-        lVLUpper.nowLVL += 1;
-        Debug.Log($"Changed Lvl: {lVLUpper.nowLVL}");
+        mainManager.ChangeGPM(buildingManager.building.addingGpm);
+        buildingManager.nowGPM += buildingManager.building.addingGpm;
+        buildingManager.nowLVL += 1;
+        Debug.Log($"Changed Lvl: {buildingManager.nowLVL}");
     }
 }

@@ -15,7 +15,7 @@ public class CityHall : UsingScript
         FirstStart();
     }
 
-    public override void Upgrade(LVLUpper lVLUpper)
+    public override void Upgrade(BuildingManager buildingManager)
     {
         FirstStart();
     }

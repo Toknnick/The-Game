@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
-    [SerializeField] private int startGold = 1000; 
+    [SerializeField] private int startGold = 1000;
+    [SerializeField] private BuildingInfoPanel buildingInfoPanel;
     [SerializeField] private GameObject scrollView;
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Transform scrollViewContent;
@@ -31,12 +32,18 @@ public class MainManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(10); // Ждём 1 минуту
+            yield return new WaitForSeconds(60); // Ждём 1 минуту
             nowGold += nowGPM;
             goldText.text = nowGold.ToString();
             Debug.Log($"Gold: {nowGold}");
             //TODO: отправить в API инфу
         }
+    }
+
+    public void OpenBuildingInfoPanel(BuildingManager BuildingManager)
+    {
+        buildingInfoPanel.gameObject.SetActive(true);
+        buildingInfoPanel.GetBuildingManager(BuildingManager);
     }
 
     public void ChooseNewBuilding(GameObject cell)
@@ -106,16 +113,19 @@ public class MainManager : MonoBehaviour
         }
     }
 
-    public void Upgrade(LVLUpper lVLUpper)
+    public void Upgrade(BuildingManager buildingManager)
     {
-        if (nowGold >= lVLUpper.building.lvlUpCoast)
+        if (nowGold >= buildingManager.building.lvlUpCoast)
         {
-            if (lVLUpper.nowLVL != lVLUpper.building.maxLVL)
+            if (buildingManager.nowLVL != buildingManager.building.maxLVL)
             {
                 //TODO: отправить в API инфу
-                nowGold -= lVLUpper.building.lvlUpCoast;
-                lVLUpper.cell.GetComponent<SpriteRenderer>().sprite = lVLUpper.building.sprites[lVLUpper.nowLVL];
-                lVLUpper.building.usingScript.Upgrade(lVLUpper);
+                nowGold -= buildingManager.building.lvlUpCoast;
+
+                if(buildingManager.building.sprites[buildingManager.nowLVL] != null)
+                    buildingManager.cell.GetComponent<SpriteRenderer>().sprite = buildingManager.building.sprites[buildingManager.nowLVL];
+
+                buildingManager.building.usingScript.Upgrade(buildingManager);
                 goldText.text = nowGold.ToString();
             }
         }
