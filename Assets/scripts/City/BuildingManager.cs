@@ -7,7 +7,7 @@ public class BuildingManager : MonoBehaviour
     public MainManager mainManager;
     public GameObject cell;
     public Building building;
-    public int nowGPM;
+    public float nowGPM;
     public int nowLVL;
 
     void OnMouseDown()

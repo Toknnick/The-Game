@@ -1,24 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
-    [SerializeField] private int startGold = 1000;
+    [SerializeField] private float startGold = 1000;
+    [SerializeField] private float startGpm = 10;
+    [Space]
+    [SerializeField] private Balancer balancer;
     [SerializeField] private BuildingInfoPanel buildingInfoPanel;
     [SerializeField] private GameObject scrollView;
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Transform scrollViewContent;
     [SerializeField] private List<Building> buildings;
 
-    private int nowGPM = 0;
-    private int nowGold = 0;
+    private float nowGPM = 0;
+    private float nowGold = 0;
     void Start()
     {
         nowGold = startGold;
+        nowGPM = startGpm;
         goldText.text = nowGold.ToString();
+        SetFromBalancer();
         StartCoroutine(SetGold());
     }
 
@@ -32,11 +38,39 @@ public class MainManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(60); // Ждём 1 минуту
+            yield return new WaitForSeconds(2); // Ждём 1 минуту
             nowGold += nowGPM;
-            goldText.text = nowGold.ToString();
+            goldText.text = Mathf.FloorToInt(nowGold).ToString();
             Debug.Log($"Gold: {nowGold}");
             //TODO: отправить в API инфу
+        }
+    }
+
+    private void SetFromBalancer()
+    {
+        foreach (var building in buildings)
+        {
+            building.usingScript.mainManager = this;
+
+            if (building.type == Building.BuildingType.House)
+            {
+                building.coast = balancer.house_coast;
+                building.maxLVL = balancer.house_maxLVL;
+                building.lvlUpCoast = balancer.house_lvlUpCoast;
+                building.usingScript.gpm = balancer.house_gpm;
+                building.usingScript.addingGpm = balancer.house_addingGpm;
+            }
+
+            if (building.type == Building.BuildingType.Laboratory)
+            {
+                building.coast = balancer.laboratory_coast;
+                building.maxLVL = balancer.laboratory_maxLVL;
+                building.lvlUpCoast = balancer.laboratory_lvlUpCoast;
+                building.usingScript.coastForOneExperement = balancer.laboratory_coastForOneExperement;
+                building.usingScript.minPercent = balancer.laboratory_minPercent;
+                building.usingScript.maxPercent = balancer.laboratory_maxPercent;
+                building.usingScript.addingPercent = balancer.laboratory_addingPercent;
+            }
         }
     }
 
@@ -65,8 +99,7 @@ public class MainManager : MonoBehaviour
             RectTransform containerRect = buildingObject.AddComponent<RectTransform>();
             VerticalLayoutGroup layout = buildingObject.AddComponent<VerticalLayoutGroup>();
             layout.childAlignment = TextAnchor.UpperCenter;
-            layout.spacing = 10;
-            buildingObject.transform.SetParent(scrollViewContent, false);
+            layout.spacing = 15;
 
             // Добавляем компонент Image
             GameObject imageObject = new GameObject("Image");
@@ -78,7 +111,11 @@ public class MainManager : MonoBehaviour
             // Добавляем компонент TextMeshProUGUI
             GameObject textObject = new GameObject("BuildingText");
             TextMeshProUGUI textComponent = textObject.AddComponent<TextMeshProUGUI>();
-            textComponent.text = building.gpm.ToString();
+            textComponent.text = "Цена: \n" + building.coast.ToString();
+            textComponent.autoSizeTextContainer = true;
+            textComponent.fontSizeMin = 0;
+            textComponent.fontSizeMax = 38;
+            textComponent.enableAutoSizing = true;
             textComponent.alignment = TextAlignmentOptions.Center;
             textObject.transform.SetParent(buildingObject.transform, false);
 
@@ -86,6 +123,7 @@ public class MainManager : MonoBehaviour
             BoxCollider2D boxCollider = buildingObject.AddComponent<BoxCollider2D>();
             boxCollider.size = new Vector2(70, 100); // Примерный размер
             buildingObject.transform.localScale = new Vector3(2,2,2);
+            buildingObject.transform.SetParent(scrollViewContent, false);
 
             // Добавляем script
             ScrollElement scrollElement = buildingObject.AddComponent<ScrollElement>();
@@ -99,12 +137,17 @@ public class MainManager : MonoBehaviour
     {
         if (nowGold >= scrollElement.building.coast)
         {
-            //TODO: отправить в API инфу
-            nowGold -= scrollElement.building.coast;
+            ChangeMoney(scrollElement.building.coast);
             goldText.text = nowGold.ToString();
             scrollElement.cell.GetComponent<SpriteRenderer>().sprite = scrollElement.building.sprites[0];
+            scrollElement.cell.gameObject.name = scrollElement.building.type.ToString();
             scrollElement.building.usingScript.Use(scrollElement);
             scrollView.SetActive(false);
+
+            if(scrollElement.building.type == Building.BuildingType.Laboratory)
+            {
+                buildings.Remove(scrollElement.building);
+            }
         }
         else
         {
@@ -119,11 +162,10 @@ public class MainManager : MonoBehaviour
         {
             if (buildingManager.nowLVL != buildingManager.building.maxLVL)
             {
-                //TODO: отправить в API инфу
-                nowGold -= buildingManager.building.lvlUpCoast;
+                ChangeMoney(buildingManager.building.lvlUpCoast);
 
-                if(buildingManager.building.sprites[buildingManager.nowLVL] != null)
-                    buildingManager.cell.GetComponent<SpriteRenderer>().sprite = buildingManager.building.sprites[buildingManager.nowLVL];
+                if(buildingManager.building.sprites[buildingManager.nowLVL-1] != null)
+                    buildingManager.cell.GetComponent<SpriteRenderer>().sprite = buildingManager.building.sprites[buildingManager.nowLVL-1];
 
                 buildingManager.building.usingScript.Upgrade(buildingManager);
                 goldText.text = nowGold.ToString();
@@ -136,11 +178,22 @@ public class MainManager : MonoBehaviour
         }
     }
 
-    public void ChangeGPM(int gpm)
+    public void ChangeGPM(float gpm, bool isLaba)
     {
         //TODO: отправить в API инфу
-        nowGPM += gpm;
-        Debug.Log($"Changed gpm: {nowGPM}");
+        if (!isLaba)
+            nowGPM += gpm;
+        else
+            nowGold += nowGold * gpm;
+
+        Debug.Log($"Changed gpm: {nowGPM}\n");
+    }
+
+    public void ChangeMoney(float money)
+    {
+        //TODO: отправить в API инфу
+        nowGold -= money;
+        Debug.Log($"Changed money: {nowGPM}\n");
     }
 
 }
