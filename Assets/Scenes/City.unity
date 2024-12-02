@@ -206,7 +206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.18959287, y: 0.09868874}
-  m_AnchoredPosition: {x: 0.73999023, y: 1.2600098}
+  m_AnchoredPosition: {x: 0.74005127, y: 1.2600098}
   m_SizeDelta: {x: -4.529999, y: 1.5149994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &37381500
@@ -427,6 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userName: GOD
+  shopName: GOD`s SHOP
   game_uuid: c18376f6-6cf3-48ac-928c-69ec0e74f46b
   startGold: 1000
   startGpm: 10
@@ -951,7 +952,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
+  m_fontSize: 21.7
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2146,7 +2147,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 71.3
+  m_fontSize: 62
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2409,7 +2410,7 @@ MonoBehaviour:
   - {fileID: 6567240077972908359, guid: 092e7565a43ceb74e96572223fd7f47e, type: 3}
   - {fileID: 2587621587555495329, guid: a6cd04039cbc1c2469faa14c57bbc99d, type: 3}
   speakingHead: {fileID: 1517735025}
-  plug: {fileID: 0}
+  plug: {fileID: 1079748690}
 --- !u!114 &1044675930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2778,7 +2779,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1079748691
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3158,7 +3159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.064, y: 0.20610964}
   m_AnchorMax: {x: 0.951542, y: 0.7945615}
-  m_AnchoredPosition: {x: -7.080017, y: 0.5099945}
+  m_AnchoredPosition: {x: -7.0799866, y: 0.5099945}
   m_SizeDelta: {x: -2.75, y: -0.9700012}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1272670872
@@ -3631,7 +3632,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.85
+  m_fontSize: 42.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

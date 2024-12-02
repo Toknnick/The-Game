@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -20,24 +21,56 @@ public class MainManager : MonoBehaviour
 
     private float nowGPM = 0;
     private float nowGold = 0;
+    private float nowGoldInShop = 0;
+    private bool isGetResUserFromAPI = false;
+    private bool isGetResShopFromAPI = false;
     void Start()
     {
         plug.SetActive(true);
+        
         // Пример вызова создания игрока с ресурсами gold и gpm
-        var resources = new Dictionary<string, float>
+        var resourcesUser = new Dictionary<string, float>
         {
             { "gold", balancer.startGold },
             { "gpm", balancer.startGpm }
         };
 
-        //apiManager.CreatePlayer(balancer.userName, resources);
+        var resourcesShop = new Dictionary<string, float>
+        {
+            { "shops gold", nowGoldInShop } // Всегда сначала добавляем золото
+        };
+
+        // Добавляем здания в ресурсы
+        foreach (var building in buildings)
+        {
+            string buildingKey = building.type.ToString();
+
+            if (!resourcesShop.ContainsKey(buildingKey))
+            {
+                resourcesShop[buildingKey] = building.coast;
+            }
+            else
+            {
+                resourcesShop[buildingKey] += building.coast;
+            }
+        }
+
+        var re = resourcesShop;
+        //apiManager.CreatePlayer(balancer.userName, resourcesUser);
+        //apiManager.CreateShop(balancer.userName, balancer.shopName, resourcesShop);
+
+
         Debug.Log("API:    Создание игрока в комментариях");
+        Debug.Log("API:    Создание магазина в комментариях");
+
         //TODO: отправлять начальные данные при создании игрока
         //nowGold = balancer.startGold;
         //nowGPM = balancer.startGpm;
+
         goldText.text = nowGold.ToString();
         SetFromBalancer();
         StartCoroutine(SetGold());
+        apiManager.GetShopResources(balancer.userName, balancer.shopName);
     }
 
     IEnumerator SetGold()
@@ -47,7 +80,7 @@ public class MainManager : MonoBehaviour
             yield return new WaitForSeconds(10); // Ждём 1 минуту
 
             string comment = "Ежеменутное добавление меда";
-            ChangeMoney(comment ,nowGPM*-1);
+            ChangeMoney(comment, nowGPM * -1);
         }
     }
 
@@ -127,7 +160,7 @@ public class MainManager : MonoBehaviour
             // Добавляем BoxCollider2D
             BoxCollider2D boxCollider = buildingObject.AddComponent<BoxCollider2D>();
             boxCollider.size = new Vector2(70, 100); // Примерный размер
-            buildingObject.transform.localScale = new Vector3(2,2,2);
+            buildingObject.transform.localScale = new Vector3(2, 2, 2);
             buildingObject.transform.SetParent(scrollViewContent, false);
 
             // Добавляем script
@@ -142,6 +175,8 @@ public class MainManager : MonoBehaviour
     {
         if (nowGold >= scrollElement.building.coast)
         {
+            nowGoldInShop+= scrollElement.building.coast;
+            UpdateShop();
             string comment = $"Куплина постройка - {scrollElement.building.type}";
             ChangeMoney(comment, scrollElement.building.coast);
             goldText.text = nowGold.ToString();
@@ -150,7 +185,7 @@ public class MainManager : MonoBehaviour
             scrollElement.building.usingScript.Use(scrollElement);
             scrollView.SetActive(false);
 
-            if(scrollElement.building.type == Building.BuildingType.Laboratory)
+            if (scrollElement.building.type == Building.BuildingType.Laboratory)
             {
                 buildings.Remove(scrollElement.building);
             }
@@ -168,11 +203,13 @@ public class MainManager : MonoBehaviour
         {
             if (buildingManager.nowLVL != buildingManager.building.maxLVL)
             {
+                nowGoldInShop += buildingManager.building.lvlUpCoast;
+                UpdateShop();
                 string comment = $"Обновлена постройка - {buildingManager.building.type}";
-                ChangeMoney(comment,buildingManager.building.lvlUpCoast);
+                ChangeMoney(comment, buildingManager.building.lvlUpCoast);
 
-                if(buildingManager.building.sprites[buildingManager.nowLVL-1] != null)
-                    buildingManager.cell.GetComponent<SpriteRenderer>().sprite = buildingManager.building.sprites[buildingManager.nowLVL-1];
+                if (buildingManager.building.sprites[buildingManager.nowLVL - 1] != null)
+                    buildingManager.cell.GetComponent<SpriteRenderer>().sprite = buildingManager.building.sprites[buildingManager.nowLVL - 1];
 
                 buildingManager.building.usingScript.Upgrade(buildingManager);
                 goldText.text = nowGold.ToString();
@@ -196,19 +233,19 @@ public class MainManager : MonoBehaviour
         UpdatePlayer();
     }
 
-    public void ChangeMoney(string comment,float money)
+    public void ChangeMoney(string comment, float money)
     {
         //TODO: отправить в API инфу
         nowGold -= money;
         goldText.text = Mathf.FloorToInt(nowGold).ToString();
 
-        if (comment != "") { 
+        if (comment != "") {
             string str = "";
 
             if (money > 0)
                 str = $"-{money}";
             else
-                str = $"+{money*-1}";
+                str = $"+{money * -1}";
 
             var resourcesChanged = new Dictionary<string, string>
             {
@@ -224,8 +261,47 @@ public class MainManager : MonoBehaviour
     {
         nowGold = gold;
         nowGPM = gpm;
-        ChangeMoney("",0);
-        plug.SetActive(false);
+        ChangeMoney("", 0);
+        isGetResUserFromAPI = true;
+
+        if (isGetResUserFromAPI && isGetResShopFromAPI)
+            plug.SetActive(false);
+    }
+
+    public void SetShopResources(Dictionary<string, float> resources)
+    {
+        // Проверяем наличие ресурсов и присваиваем последнее значение как nowGoldInShop
+        if (resources != null && resources.Count > 0)
+        {
+            var lastEntry = resources.Last();
+            nowGoldInShop = lastEntry.Value;
+
+            // Удаляем последний элемент из словаря, так как он не является зданием
+            resources.Remove(lastEntry.Key);
+        }
+
+        List<Building> buildingsToRemove = new List<Building>();
+
+        foreach (var building in buildings)
+        {
+            string buildingType = building.type.ToString();
+
+            // Если типа здания нет в оставшихся ресурсах, добавляем в список на удаление
+            if (!resources.ContainsKey(buildingType))
+            {
+                buildingsToRemove.Add(building);
+            }
+        }
+
+        // Удаляем здания, которых нет в ресурсах
+        foreach (var buildingToRemove in buildingsToRemove)
+            buildings.Remove(buildingToRemove);
+
+        isGetResShopFromAPI = true;
+
+        if (isGetResUserFromAPI && isGetResShopFromAPI)
+            plug.SetActive(false);
+
     }
 
     private void UpdatePlayer()
@@ -243,9 +319,34 @@ public class MainManager : MonoBehaviour
         }
     }
 
+    private void UpdateShop()
+    {
+        var resourcesShop = new Dictionary<string, float>
+        {
+            { "shop`s gold", nowGoldInShop } // Сначала добавляем золото в магазин
+        };
+
+        foreach (var building in buildings)
+        {
+            // Используем тип здания в качестве ключа и записываем его данные (например, coast)
+            string buildingKey = building.type.ToString();
+
+            if (!resourcesShop.ContainsKey(buildingKey))
+            {
+                resourcesShop[buildingKey] = building.coast;
+            }
+            else
+            {
+                // Если уже есть запись с таким типом, добавляем стоимость
+                resourcesShop[buildingKey] += building.coast;
+            }
+        }
+
+        apiManager.UpdateShopResources(balancer.userName,balancer.shopName,resourcesShop);
+    }
+
     private void SendLog(string comment, Dictionary<string, string> resourcesChanged)
     {
         apiManager.SendLog(comment, balancer.userName, resourcesChanged);
     }
-
 }

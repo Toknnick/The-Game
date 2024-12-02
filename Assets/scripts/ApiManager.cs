@@ -15,6 +15,11 @@ public class ApiManager : MonoBehaviour
         StartCoroutine(GetPlayerResourcesCoro(balancer.userName));
     }
 
+    public void GetShopResources(string username, string shopName)
+    {
+        StartCoroutine(GetShopResourcesCoro(username, shopName));
+    }
+
     public void SendLog(string comment, string playerName, Dictionary<string, string> resourcesChanged)
     {
         StartCoroutine(SendLogCoro(comment, playerName, resourcesChanged));
@@ -28,6 +33,16 @@ public class ApiManager : MonoBehaviour
     public void UpdatePlayer(string name, Dictionary<string, float> resources)
     {
         StartCoroutine(UpdatePlayerResourcesCoro(name, resources));
+    }
+
+    public void CreateShop(string username, string shopName, Dictionary<string, float> resources = null)
+    {
+        StartCoroutine(CreateShopCoro(username, shopName, resources));
+    }
+
+    public void UpdateShopResources(string username, string shopName, Dictionary<string, float> resources)
+    {
+        StartCoroutine(UpdateShopResourcesCoro(username, shopName, resources));
     }
 
     private IEnumerator CreatePlayerCoro(string name, Dictionary<string, float> resources = null)
@@ -122,7 +137,7 @@ public class ApiManager : MonoBehaviour
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("API: Ресурсы игрока успешно получены: " + request.downloadHandler.text);
+                Debug.Log("API:    Ресурсы игрока успешно получены: " + request.downloadHandler.text);
 
                 try
                 {
@@ -188,6 +203,118 @@ public class ApiManager : MonoBehaviour
                 Debug.LogError($"API:    Ошибка отправки лога: {request.responseCode}\n{request.downloadHandler.text}");
             }
         }
+    }
+
+    IEnumerator CreateShopCoro(string username, string shopName, Dictionary<string, float> resources)
+    {
+        string url = $"https://2025.nti-gamedev.ru/api/games/{gameUuid}/players/{username}/shops/";
+
+        // Формируем тело запроса
+        var requestBody = new
+        {
+            name = shopName,
+            resources = resources.Count > 0 ? resources : null
+        };
+
+        // Сериализуем в JSON
+        string jsonBody = JsonConvert.SerializeObject(requestBody);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            // Устанавливаем заголовки
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            // Добавляем тело запроса
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonBody);
+            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            request.downloadHandler = new DownloadHandlerBuffer();
+
+            // Отправляем запрос
+            yield return request.SendWebRequest();
+
+            // Обрабатываем результат
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("API:    Магазин успешно создан: " + request.downloadHandler.text);
+            }
+            else
+            {
+                Debug.LogError($"API:    Ошибка создания магазина: {request.responseCode}\n{request.downloadHandler.text}");
+            }
+        }
+    }
+
+    private IEnumerator UpdateShopResourcesCoro(string username, string shopName, Dictionary<string, float> updatedResources)
+    {
+        string url = $"https://2025.nti-gamedev.ru/api/games/{gameUuid}/players/{username}/shops/{shopName}/";
+
+        // Формируем тело запроса
+        var requestBody = new
+        {
+            resources = updatedResources
+        };
+
+        // Сериализуем в JSON
+        string jsonBody = JsonConvert.SerializeObject(requestBody);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "PUT"))
+        {
+            // Устанавливаем заголовки
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            // Добавляем тело запроса
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonBody);
+            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            request.downloadHandler = new DownloadHandlerBuffer();
+
+            // Отправляем запрос
+            yield return request.SendWebRequest();
+
+            // Обрабатываем результат
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("API:    Ресурсы магазина успешно обновлены: " + request.downloadHandler.text);
+            }
+            else
+            {
+                Debug.LogError($"API:    Ошибка обновления ресурсов магазина: {request.responseCode}\n{request.downloadHandler.text}");
+            }
+        }
+    }
+
+    private IEnumerator GetShopResourcesCoro(string username, string shopName)
+    {
+        string url = $"https://2025.nti-gamedev.ru/api/games/{gameUuid}/players/{username}/shops/{shopName}/";
+
+        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("API:    Успешное получение ресурсов магазина: " + request.downloadHandler.text);
+
+                // Десериализуем ответ
+                var response = JsonConvert.DeserializeObject<ShopResponse>(request.downloadHandler.text);
+
+                if (response != null && response.resources != null && response.resources.Count > 0)
+                {
+                    // Передаем данные в MainManager
+                    mainManager.SetShopResources(response.resources);
+                }
+            }
+            else
+            {
+                Debug.LogError($"API:    Ошибка получения ресурсов магазина: {request.responseCode}\n{request.downloadHandler.text}");
+            }
+        }
+    }
+
+    // Класс для десериализации ответа
+    private class ShopResponse
+    {
+        public string name { get; set; }
+        public Dictionary<string, float> resources { get; set; }
     }
 
     // Класс для десериализации ответа API
