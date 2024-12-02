@@ -5,6 +5,8 @@ using UnityEngine;
 public class Balancer : MonoBehaviour
 {
     [Header("Стартовые данные")]
+    public string userName = "Developer";
+    [HideInInspector] public string game_uuid = "c18376f6-6cf3-48ac-928c-69ec0e74f46b";
     public float startGold = 1000;
     public float startGpm = 10;
     [Header("Дом")]
