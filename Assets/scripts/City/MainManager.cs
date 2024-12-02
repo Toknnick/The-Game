@@ -175,8 +175,12 @@ public class MainManager : MonoBehaviour
     {
         if (nowGold >= scrollElement.building.coast)
         {
-            nowGoldInShop+= scrollElement.building.coast;
-            UpdateShop();
+            var resourcesShop = new Dictionary<string, string>
+            {
+                { "shops gold", $"+{scrollElement.building.coast }" }
+            };
+            Debug.Log(scrollElement.building.coast);
+            nowGoldInShop += scrollElement.building.coast;
             string comment = $"Куплина постройка - {scrollElement.building.type}";
             ChangeMoney(comment, scrollElement.building.coast);
             goldText.text = nowGold.ToString();
@@ -185,10 +189,20 @@ public class MainManager : MonoBehaviour
             scrollElement.building.usingScript.Use(scrollElement);
             scrollView.SetActive(false);
 
+            string commentShop = "";
+
             if (scrollElement.building.type == Building.BuildingType.Laboratory)
             {
                 buildings.Remove(scrollElement.building);
+                commentShop = "Игрок купил лабораторию";
+                resourcesShop[scrollElement.building.type.ToString()] = scrollElement.building.coast.ToString();
             }
+            else
+            {
+                commentShop = "Игрок купил дом";
+            }
+
+            UpdateShop(commentShop, resourcesShop);
         }
         else
         {
@@ -203,8 +217,12 @@ public class MainManager : MonoBehaviour
         {
             if (buildingManager.nowLVL != buildingManager.building.maxLVL)
             {
+                var resourcesShop = new Dictionary<string, string>
+                {
+                    { "shops gold", $"+{buildingManager.building.lvlUpCoast}" }
+                };
+
                 nowGoldInShop += buildingManager.building.lvlUpCoast;
-                UpdateShop();
                 string comment = $"Обновлена постройка - {buildingManager.building.type}";
                 ChangeMoney(comment, buildingManager.building.lvlUpCoast);
 
@@ -213,6 +231,22 @@ public class MainManager : MonoBehaviour
 
                 buildingManager.building.usingScript.Upgrade(buildingManager);
                 goldText.text = nowGold.ToString();
+
+                string commentShop = "";
+                
+
+                if (buildingManager.building.type == Building.BuildingType.Laboratory)
+                {
+                    commentShop = "Игрок обновил лабораторию";
+                }
+                else
+                {
+                    commentShop = "Игрок обновил дом";
+                }
+
+
+
+                UpdateShop(commentShop, resourcesShop);
             }
         }
         else
@@ -252,7 +286,7 @@ public class MainManager : MonoBehaviour
                 { "gold_changed", str }
             };
 
-            SendLog(comment, resourcesChanged);
+            SendUserLog(comment, resourcesChanged);
         }
         UpdatePlayer();
     }
@@ -319,7 +353,7 @@ public class MainManager : MonoBehaviour
         }
     }
 
-    private void UpdateShop()
+    private void UpdateShop(string comment, Dictionary<string, string> resourcesChanged)
     {
         var resourcesShop = new Dictionary<string, float>
         {
@@ -343,10 +377,16 @@ public class MainManager : MonoBehaviour
         }
 
         apiManager.UpdateShopResources(balancer.userName,balancer.shopName,resourcesShop);
+        SendShopLog(comment, resourcesChanged);
     }
 
-    private void SendLog(string comment, Dictionary<string, string> resourcesChanged)
+    private void SendUserLog(string comment, Dictionary<string, string> resourcesChanged)
     {
         apiManager.SendLog(comment, balancer.userName, resourcesChanged);
+    }
+
+    private void SendShopLog(string comment, Dictionary<string, string> resourcesChanged)
+    {
+        apiManager.CreateShopLog(comment,balancer.userName,balancer.shopName, resourcesChanged);
     }
 }

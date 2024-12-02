@@ -15,6 +15,11 @@ public class ApiManager : MonoBehaviour
         StartCoroutine(GetPlayerResourcesCoro(balancer.userName));
     }
 
+    public void CreateShopLog(string comment, string playerName, string shopName, Dictionary<string, string> resourcesChanged)
+    {
+        StartCoroutine(CreateShopLogCoro(comment, playerName, shopName, resourcesChanged));
+    }
+
     public void GetShopResources(string username, string shopName)
     {
         StartCoroutine(GetShopResourcesCoro(username, shopName));
@@ -306,6 +311,47 @@ public class ApiManager : MonoBehaviour
             else
             {
                 Debug.LogError($"API:    Ошибка получения ресурсов магазина: {request.responseCode}\n{request.downloadHandler.text}");
+            }
+        }
+    }
+
+    private IEnumerator CreateShopLogCoro(string comment, string playerName, string shopName, Dictionary<string, string> resourcesChanged)
+    {
+        string url = $"https://2025.nti-gamedev.ru/api/games/{gameUuid}/logs/";
+
+        // Формируем тело запроса
+        var requestBody = new
+        {
+            comment = comment,
+            player_name = playerName,
+            shop_name = shopName,
+            resources_changed = resourcesChanged
+        };
+
+        // Сериализуем тело запроса в JSON
+        string jsonBody = JsonConvert.SerializeObject(requestBody);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            // Устанавливаем заголовки
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            // Добавляем тело запроса
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonBody);
+            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            request.downloadHandler = new DownloadHandlerBuffer();
+
+            // Отправляем запрос
+            yield return request.SendWebRequest();
+
+            // Обрабатываем ответ
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("API:    Лог магазина успешно создан: " + request.downloadHandler.text);
+            }
+            else
+            {
+                Debug.LogError($"API:    Ошибка создания лога магазина: {request.responseCode}\n{request.downloadHandler.text}");
             }
         }
     }
