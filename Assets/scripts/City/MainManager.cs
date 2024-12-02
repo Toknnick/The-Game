@@ -16,11 +16,13 @@ public class MainManager : MonoBehaviour
     [Space]
     [SerializeField] private List<Building> buildings;
     [SerializeField] private SpeakingHeadmanager speakingHead;
+    [SerializeField] private GameObject plug;
 
     private float nowGPM = 0;
     private float nowGold = 0;
     void Start()
     {
+        plug.SetActive(true);
         // Пример вызова создания игрока с ресурсами gold и gpm
         var resources = new Dictionary<string, float>
         {
@@ -30,8 +32,9 @@ public class MainManager : MonoBehaviour
 
         //apiManager.CreatePlayer(balancer.userName, resources);
         Debug.Log("API:    Создание игрока в комментариях");
-        nowGold = balancer.startGold;
-        nowGPM = balancer.startGpm;
+        //TODO: отправлять начальные данные при создании игрока
+        //nowGold = balancer.startGold;
+        //nowGPM = balancer.startGpm;
         goldText.text = nowGold.ToString();
         SetFromBalancer();
         StartCoroutine(SetGold());
@@ -41,8 +44,7 @@ public class MainManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(2); // Ждём 1 минуту
-            goldText.text = Mathf.FloorToInt(nowGold).ToString();
+            yield return new WaitForSeconds(60); // Ждём 1 минуту
             ChangeMoney(-nowGPM);
         }
     }
@@ -194,19 +196,31 @@ public class MainManager : MonoBehaviour
     {
         //TODO: отправить в API инфу
         nowGold -= money;
+        goldText.text = Mathf.FloorToInt(nowGold).ToString();
         UpdatePlayer();
+    }
+
+    public void SetResources(float gold, float gpm)
+    {
+        nowGold = gold;
+        nowGPM = gpm;
+        ChangeMoney(0);
+        plug.SetActive(false);
     }
 
     private void UpdatePlayer()
     {
-        // Пример вызова создания игрока с ресурсами gold и gpm
-        var resources = new Dictionary<string, float>
+        if (nowGPM != 0)
+        {
+            // Пример вызова создания игрока с ресурсами gold и gpm
+            var resources = new Dictionary<string, float>
         {
             { "gold", nowGold },
             { "gpm", nowGPM }
         };
 
-        apiManager.UpdatePlayer(balancer.userName, resources);
+            apiManager.UpdatePlayer(balancer.userName, resources);
+        }
     }
 
 }
