@@ -36,7 +36,7 @@ public class BuildingInfoPanel : MonoBehaviour
 
     public void StartExperiment()
     {
-        mainManager.ChangeMoney(buildingManager.building.usingScript.coastForOneExperement);
+        mainManager.ChangeMoney("Начат эксперемент в лаборатории",buildingManager.building.usingScript.coastForOneExperement);
         float gold = Random.Range(buildingManager.building.usingScript.minPercent, buildingManager.building.usingScript.maxPercent) / 100.0f;
         mainManager.ChangeGPM(gold,true);
         ClosePanel();

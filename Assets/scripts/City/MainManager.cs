@@ -44,8 +44,10 @@ public class MainManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(60); // Ждём 1 минуту
-            ChangeMoney(-nowGPM);
+            yield return new WaitForSeconds(10); // Ждём 1 минуту
+
+            string comment = "Ежеменутное добавление меда";
+            ChangeMoney(comment ,nowGPM*-1);
         }
     }
 
@@ -140,7 +142,8 @@ public class MainManager : MonoBehaviour
     {
         if (nowGold >= scrollElement.building.coast)
         {
-            ChangeMoney(scrollElement.building.coast);
+            string comment = $"Куплина постройка - {scrollElement.building.type}";
+            ChangeMoney(comment, scrollElement.building.coast);
             goldText.text = nowGold.ToString();
             scrollElement.cell.GetComponent<SpriteRenderer>().sprite = scrollElement.building.sprites[0];
             scrollElement.cell.gameObject.name = scrollElement.building.type.ToString();
@@ -165,7 +168,8 @@ public class MainManager : MonoBehaviour
         {
             if (buildingManager.nowLVL != buildingManager.building.maxLVL)
             {
-                ChangeMoney(buildingManager.building.lvlUpCoast);
+                string comment = $"Обновлена постройка - {buildingManager.building.type}";
+                ChangeMoney(comment,buildingManager.building.lvlUpCoast);
 
                 if(buildingManager.building.sprites[buildingManager.nowLVL-1] != null)
                     buildingManager.cell.GetComponent<SpriteRenderer>().sprite = buildingManager.building.sprites[buildingManager.nowLVL-1];
@@ -192,11 +196,27 @@ public class MainManager : MonoBehaviour
         UpdatePlayer();
     }
 
-    public void ChangeMoney(float money)
+    public void ChangeMoney(string comment,float money)
     {
         //TODO: отправить в API инфу
         nowGold -= money;
         goldText.text = Mathf.FloorToInt(nowGold).ToString();
+
+        if (comment != "") { 
+            string str = "";
+
+            if (money > 0)
+                str = $"-{money}";
+            else
+                str = $"+{money*-1}";
+
+            var resourcesChanged = new Dictionary<string, string>
+            {
+                { "gold_changed", str }
+            };
+
+            SendLog(comment, resourcesChanged);
+        }
         UpdatePlayer();
     }
 
@@ -204,7 +224,7 @@ public class MainManager : MonoBehaviour
     {
         nowGold = gold;
         nowGPM = gpm;
-        ChangeMoney(0);
+        ChangeMoney("",0);
         plug.SetActive(false);
     }
 
@@ -221,6 +241,11 @@ public class MainManager : MonoBehaviour
 
             apiManager.UpdatePlayer(balancer.userName, resources);
         }
+    }
+
+    private void SendLog(string comment, Dictionary<string, string> resourcesChanged)
+    {
+        apiManager.SendLog(comment, balancer.userName, resourcesChanged);
     }
 
 }

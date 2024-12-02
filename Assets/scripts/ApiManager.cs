@@ -15,6 +15,11 @@ public class ApiManager : MonoBehaviour
         StartCoroutine(GetPlayerResourcesCoro(balancer.userName));
     }
 
+    public void SendLog(string comment, string playerName, Dictionary<string, string> resourcesChanged)
+    {
+        StartCoroutine(SendLogCoro(comment, playerName, resourcesChanged));
+    }
+
     public void CreatePlayer(string name, Dictionary<string, float> resources = null)
     {
         StartCoroutine(CreatePlayerCoro(name, resources));
@@ -141,6 +146,46 @@ public class ApiManager : MonoBehaviour
             else
             {
                 Debug.LogError($"API:    Ошибка получения ресурсов игрока: {request.responseCode}\n{request.downloadHandler.text}");
+            }
+        }
+    }
+
+    IEnumerator SendLogCoro(string comment, string playerName, Dictionary<string, string> resourcesChanged)
+    {
+        string url = $"https://2025.nti-gamedev.ru/api/games/{gameUuid}/logs/";
+
+        // Формируем тело запроса
+        var requestBody = new
+        {
+            comment = comment,
+            player_name = playerName,
+            resources_changed = resourcesChanged
+        };
+
+        // Сериализуем в JSON
+        string jsonBody = JsonConvert.SerializeObject(requestBody);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            // Устанавливаем заголовки
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            // Добавляем тело запроса
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonBody);
+            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+            request.downloadHandler = new DownloadHandlerBuffer();
+
+            // Отправляем запрос
+            yield return request.SendWebRequest();
+
+            // Обрабатываем результат
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("API:    Лог успешно отправлен: " + request.downloadHandler.text);
+            }
+            else
+            {
+                Debug.LogError($"API:    Ошибка отправки лога: {request.responseCode}\n{request.downloadHandler.text}");
             }
         }
     }
