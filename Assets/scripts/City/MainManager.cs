@@ -179,7 +179,6 @@ public class MainManager : MonoBehaviour
             {
                 { "shops gold", $"+{scrollElement.building.coast }" }
             };
-            Debug.Log(scrollElement.building.coast);
             nowGoldInShop += scrollElement.building.coast;
             string comment = $"Куплина постройка - {scrollElement.building.type}";
             ChangeMoney(comment, scrollElement.building.coast);
