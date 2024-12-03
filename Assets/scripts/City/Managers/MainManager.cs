@@ -16,9 +16,11 @@ public class MainManager : MonoBehaviour
     [SerializeField] private Transform scrollViewContent;
     [Space]
     [SerializeField] private List<Building> buildings;
-    [SerializeField] private SpeakingHeadmanager speakingHead;
+    public SpeakingHeadmanager speakingHead;
     [SerializeField] private GameObject plug;
     [SerializeField] private List<GameObject> gjcells;
+
+    [SerializeField] private TextOfSpeakHead TextOfSpeakHead;
 
     private float nowGPM = 0;
     private float nowGold = 0;
@@ -102,6 +104,7 @@ public class MainManager : MonoBehaviour
         SetFromBalancer();
         //StartCoroutine(SetGold());
         apiManager.GetShopResources(balancer.userName, balancer.shopName);
+        TextOfSpeakHead.SetText(speakingHead);
     }
 
     IEnumerator SetGold()

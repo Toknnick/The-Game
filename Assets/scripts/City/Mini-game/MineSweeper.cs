@@ -19,6 +19,7 @@ public class MineSweeper : MonoBehaviour
 
     [SerializeField] private GameObject panel;
     [SerializeField] private LostPanel EndGamePanel;
+    [SerializeField] private TextOfSpeakHead TextOfSpeakHead;
 
     private List<GameTitle> cells;
     private int cellsToReveal;
@@ -32,10 +33,15 @@ public class MineSweeper : MonoBehaviour
         mineCount = balancer.mineCount;
         remainingLives = balancer.lives;
         mainManager.OffCells();
-
+        SetText();
         InitializeGrid();
         PlaceMines();
         livesText.text = "Готов собирать мед!";
+    }
+
+    private void SetText()
+    {
+        TextOfSpeakHead.SetText(mainManager.speakingHead);
     }
 
     void InitializeGrid()

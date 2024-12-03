@@ -580,7 +580,7 @@ MonoBehaviour:
   gridWidth: 10
   gridHeight: 10
   mineCount: 8
-  lives: 2
+  lives: 3
   house_coast: 200
   house_lvlUpCoast: 500
   house_maxLVL: 3
@@ -752,7 +752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.043137256}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.15686275}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -968,12 +968,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.45
+  m_fontSize: 75.9
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 0
-  m_fontSizeMax: 72
+  m_fontSizeMin: 25
+  m_fontSizeMax: 1000
   m_fontStyle: 34
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -2960,6 +2960,7 @@ GameObject:
   - component: {fileID: 1044675930}
   - component: {fileID: 1044675929}
   - component: {fileID: 1044675934}
+  - component: {fileID: 1044675935}
   m_Layer: 5
   m_Name: Canvas(MainManager)
   m_TagString: Untagged
@@ -2996,6 +2997,7 @@ MonoBehaviour:
   - {fileID: 731966947}
   - {fileID: 1797587217}
   - {fileID: 1453619016}
+  TextOfSpeakHead: {fileID: 1044675935}
 --- !u!114 &1044675930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3071,14 +3073,14 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 197438834}
   - {fileID: 1272670871}
   - {fileID: 1603260237}
   - {fileID: 1071499604}
   - {fileID: 865705922}
-  - {fileID: 1517735022}
   - {fileID: 1447385959}
-  - {fileID: 197438834}
   - {fileID: 1719514658}
+  - {fileID: 1517735022}
   - {fileID: 1812168920}
   - {fileID: 1079748691}
   m_Father: {fileID: 0}
@@ -3140,6 +3142,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1044675935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044675928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fb54a4a6ca4ee646839e0e347445f89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texts:
+  - "\u0420\u0430\u0434 \u0442\u0435\u0431\u044F \u0432\u0438\u0434\u0435\u0442\u044C!"
+  head: {fileID: 21300000, guid: 8cc2bfce9ce021d4a9894132b92dee7f, type: 3}
 --- !u!1 &1065585205
 GameObject:
   m_ObjectHideFlags: 0
@@ -4135,10 +4152,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1447385959}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.020774512, y: 0.845}
-  m_AnchorMax: {x: 0.2, y: 0.969536}
-  m_AnchoredPosition: {x: -0.5395508, y: 0.6199951}
-  m_SizeDelta: {x: -2.0899963, y: 2.8400002}
+  m_AnchorMin: {x: 0.73864585, y: 0.8404815}
+  m_AnchorMax: {x: 0.90581256, y: 0.9760001}
+  m_AnchoredPosition: {x: 9.5, y: -0.38000488}
+  m_SizeDelta: {x: 20.910034, y: -9.16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1379494665
 MonoBehaviour:
@@ -4187,7 +4204,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.5
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4423,7 +4440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.7019608}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4549,8 +4566,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48dd7ec2890748a4289e642d9c823fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speakingHead_text: {fileID: 0}
-  speakingHead_Image: {fileID: 0}
+  texts: []
+  speakingHead_text: {fileID: 1828257871}
+  speakingHead_Image: {fileID: 726251785}
+  typingSpeed: 0.05
 --- !u!1 &1543202235
 GameObject:
   m_ObjectHideFlags: 0
@@ -5508,7 +5527,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1719514658
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5894,12 +5913,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
+  m_fontSize: 100
   m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 2
-  m_fontSizeMax: 40
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 5
+  m_fontSizeMax: 100
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -6226,6 +6245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1948597015}
   - component: {fileID: 1948597014}
+  - component: {fileID: 1948597016}
   m_Layer: 0
   m_Name: MineSweeperManager
   m_TagString: Untagged
@@ -6252,6 +6272,7 @@ MonoBehaviour:
   livesText: {fileID: 1379494665}
   panel: {fileID: 1447385958}
   EndGamePanel: {fileID: 1719514661}
+  TextOfSpeakHead: {fileID: 1948597016}
 --- !u!4 &1948597015
 Transform:
   m_ObjectHideFlags: 0
@@ -6267,6 +6288,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1948597016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948597013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fb54a4a6ca4ee646839e0e347445f89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texts:
+  - "\u041F\u0440\u0438\u0432\u0435\u0442!"
+  - "\u041F\u043E\u043C\u043E\u0436\u0435\u0448\u044C \u043C\u043D\u0435 \u0441\u043E\u0431\u0440\u0430\u0442\u044C
+    \u043C\u0435\u0434?"
+  - "\u0411\u0443\u0434\u044C \u0430\u043A\u043A\u0443\u0440\u0430\u0442\u043D\u0435\u0435,
+    \u044F \u0441\u043C\u043E\u0433\u0443 \u0432\u044B\u0434\u0435\u0440\u0436\u0430\u0442\u044C
+    \u0442\u043E\u043B\u044C\u043A\u043E 3 \u0443\u043A\u0443\u0441\u0430!"
+  - "\u041E\u0442\u043B\u0438\u0447\u043D\u043E! \u041F\u043E\u0448\u043B\u0438"
+  head: {fileID: 21300000, guid: 8cc2bfce9ce021d4a9894132b92dee7f, type: 3}
 --- !u!1 &2020460172
 GameObject:
   m_ObjectHideFlags: 0
