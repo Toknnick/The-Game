@@ -69,7 +69,7 @@ public class MainManager : MonoBehaviour
 
         goldText.text = nowGold.ToString();
         SetFromBalancer();
-        StartCoroutine(SetGold());
+        //StartCoroutine(SetGold());
         apiManager.GetShopResources(balancer.userName, balancer.shopName);
     }
 
