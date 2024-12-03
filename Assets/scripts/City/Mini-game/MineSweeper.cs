@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class MineSweeper : MonoBehaviour
 {
-    public int gridWidth = 10;
-    public int gridHeight = 10;
-    public int mineCount = 20;
-    public int remainingLives = 3;
+    [SerializeField] private Balancer balancer;
+    private int gridWidth;
+    private int gridHeight;
+    private int mineCount;
+    private int remainingLives;
 
     public GameObject cellPrefab;
     public Transform gridParent;
@@ -19,6 +20,14 @@ public class MineSweeper : MonoBehaviour
     private int cellsToReveal;
 
     private bool gameEnded;
+
+    private void Start()
+    {
+        gridWidth = balancer.gridWidth;
+        gridHeight = balancer.gridHeight;
+        mineCount = balancer.mineCount;
+        remainingLives = balancer.lives;
+    }
 
     public void StartGame()
     {

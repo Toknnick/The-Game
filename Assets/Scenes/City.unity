@@ -255,7 +255,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1948597014}
         m_TargetAssemblyTypeName: MineSweeper, Assembly-CSharp
-        m_MethodName: InitGame
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -443,6 +443,10 @@ MonoBehaviour:
   game_uuid: c18376f6-6cf3-48ac-928c-69ec0e74f46b
   startGold: 1000
   startGpm: 10
+  gridWidth: 10
+  gridHeight: 10
+  mineCount: 8
+  lives: 2
   house_coast: 200
   house_lvlUpCoast: 500
   house_maxLVL: 3
@@ -726,7 +730,7 @@ Transform:
   m_GameObject: {fileID: 238525978}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -14.55, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -964,7 +968,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
+  m_fontSize: 21.7
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1756,43 +1760,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 726251783}
   m_CullTransparentMesh: 1
---- !u!1 &737654331
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 737654332}
-  m_Layer: 5
-  m_Name: Mini-game
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &737654332
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 737654331}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1107329949}
-  - {fileID: 1379494664}
-  m_Father: {fileID: 1044675933}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &767651366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2542,7 +2509,8 @@ RectTransform:
   - {fileID: 1517735022}
   - {fileID: 37381499}
   - {fileID: 1079748691}
-  - {fileID: 737654332}
+  - {fileID: 1107329949}
+  - {fileID: 1379494664}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2996,12 +2964,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 737654332}
+  m_Father: {fileID: 1044675933}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.1244586, y: 0}
-  m_AnchorMax: {x: 0.8755258, y: 1}
-  m_AnchoredPosition: {x: 0.6938057, y: 0.25378418}
-  m_SizeDelta: {x: 587.8773, y: 458.50244}
+  m_AnchorMin: {x: 0.29344395, y: 0.12670816}
+  m_AnchorMax: {x: 0.7094126, y: 0.87921405}
+  m_AnchoredPosition: {x: 0.59999084, y: 0.6000061}
+  m_SizeDelta: {x: 0.83000183, y: -3.1900024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1107329950
 MonoBehaviour:
@@ -3023,8 +2991,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
-  m_Spacing: {x: 2, y: 2}
+  m_CellSize: {x: 0, y: 0}
+  m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &1107329951
@@ -3040,7 +3008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3309,7 +3277,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.064, y: 0.20610964}
   m_AnchorMax: {x: 0.951542, y: 0.7945615}
-  m_AnchoredPosition: {x: -7.0799866, y: 0.5099945}
+  m_AnchoredPosition: {x: -7.079956, y: 0.5099945}
   m_SizeDelta: {x: -2.75, y: -0.9700012}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1272670872
@@ -3475,12 +3443,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 737654332}
+  m_Father: {fileID: 1044675933}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.78200006}
-  m_AnchorMax: {x: 0.1348143, y: 1}
-  m_AnchoredPosition: {x: -343.8787, y: 182.05899}
-  m_SizeDelta: {x: 100.23256, y: 91.88198}
+  m_AnchorMax: {x: 0.07, y: 1}
+  m_AnchoredPosition: {x: 4.2059937, y: 2.5684052}
+  m_SizeDelta: {x: -5.014, y: -7.9268}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1379494665
 MonoBehaviour:
@@ -3529,13 +3497,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.1
+  m_fontSize: 24.45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 0
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 3
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -3916,7 +3884,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.85
+  m_fontSize: 39.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4401,7 +4369,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.009000001, y: 0.07330209}
   m_AnchorMax: {x: 1, y: 0.20069793}
-  m_AnchoredPosition: {x: -1.5013046, y: 0.6199951}
+  m_AnchoredPosition: {x: -1.5013123, y: 0.6199951}
   m_SizeDelta: {x: 3.0027, y: -2.68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1942642225
@@ -4534,13 +4502,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d5fb6b43dac3904fb65230a097ccbc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rows: 5
-  columns: 5
-  maxHp: 3
-  numberOfTraps: 5
-  cellPrefab: {fileID: 2007086540644787702, guid: bc1ebf4fdcf005e49911a8bb1d822c88, type: 3}
+  balancer: {fileID: 201079368}
+  cellPrefab: {fileID: 3902941895597280820, guid: bc1ebf4fdcf005e49911a8bb1d822c88, type: 3}
   gridParent: {fileID: 1107329949}
-  statusText: {fileID: 1379494665}
+  livesText: {fileID: 1379494665}
 --- !u!4 &1948597015
 Transform:
   m_ObjectHideFlags: 0
@@ -4775,8 +4740,8 @@ SceneRoots:
   - {fileID: 238525981}
   - {fileID: 201079369}
   - {fileID: 36509288}
-  - {fileID: 1044675933}
   - {fileID: 1948597015}
+  - {fileID: 1044675933}
   - {fileID: 1272646720}
   - {fileID: 1024226315}
   - {fileID: 152137500}
