@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class MineSweeper : MonoBehaviour
 {
     [SerializeField] private Balancer balancer;
-    [SerializeField] private List<GameObject> gjcells;
+    [SerializeField] private MainManager mainManager;
     private int gridWidth;
     private int gridHeight;
     private int mineCount;
@@ -17,33 +17,35 @@ public class MineSweeper : MonoBehaviour
     public Transform gridParent;
     public TextMeshProUGUI livesText;
 
+    [SerializeField] private GameObject panel;
+    [SerializeField] private LostPanel EndGamePanel;
+
     private List<GameTitle> cells;
     private int cellsToReveal;
-
     private bool gameEnded;
 
-    private void Start()
+    public void StartGame()
     {
+        panel.SetActive(true);
         gridWidth = balancer.gridWidth;
         gridHeight = balancer.gridHeight;
         mineCount = balancer.mineCount;
         remainingLives = balancer.lives;
-    }
-
-    public void StartGame()
-    {
-        foreach(var cell in gjcells)
-        {
-            cell.GetComponent<Collider2D>().enabled = false;
-        }
+        mainManager.OffCells();
 
         InitializeGrid();
         PlaceMines();
-        livesText.text = $"Lives: {remainingLives}";
+        livesText.text = "Готов собирать мед!";
     }
 
     void InitializeGrid()
     {
+        // Удаляем все существующие плитки из gridParent
+        foreach (Transform child in gridParent)
+        {
+            Destroy(child.gameObject);
+        }
+
         cells = new List<GameTitle>();
         cellsToReveal = gridWidth * gridHeight - mineCount;
 
@@ -101,7 +103,7 @@ public class MineSweeper : MonoBehaviour
         {
             cell.Reveal();
             remainingLives--;
-            livesText.text = $"Lives: {remainingLives}";
+            livesText.text = $"Могу ведержать укусов: {remainingLives}";
 
             if (remainingLives <= 0)
             {
@@ -197,10 +199,7 @@ public class MineSweeper : MonoBehaviour
 
     void EndGame(bool won)
     {
-        foreach (var cell in gjcells)
-        {
-            cell.GetComponent<Collider2D>().enabled = true;
-        }
+        mainManager.OnCells();
 
         gameEnded = true;
 
@@ -212,6 +211,19 @@ public class MineSweeper : MonoBehaviour
             }
         }
 
-        Debug.Log(won ? "You won!" : "Game Over!");
+        float gold = balancer.goldForGame;
+
+        if (remainingLives == 2)
+        {
+            gold = gold * 0.7f;
+        }
+        if (remainingLives == 1)
+        {
+            gold = gold * 0.3f;
+        }
+
+        panel.SetActive(false);
+        EndGamePanel.EndGame(won,gold);
+        mainManager.EndTneGame(won, gold);
     }
 }

@@ -12,10 +12,11 @@ public class Balancer : MonoBehaviour
     public float startGold = 1000;
     public float startGpm = 10;
     [Header("Мини-игра сапер")]
+    public float goldForGame = 10;
     public int gridWidth = 10;
     public int gridHeight = 10;
     public int mineCount = 8;
-    public int lives = 2;
+    public int lives = 3;
     [Header("Дом")]
     public int house_coast; 
     public int house_lvlUpCoast; 

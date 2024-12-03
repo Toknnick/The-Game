@@ -18,12 +18,43 @@ public class MainManager : MonoBehaviour
     [SerializeField] private List<Building> buildings;
     [SerializeField] private SpeakingHeadmanager speakingHead;
     [SerializeField] private GameObject plug;
+    [SerializeField] private List<GameObject> gjcells;
 
     private float nowGPM = 0;
     private float nowGold = 0;
     private float nowGoldInShop = 0;
     private bool isGetResUserFromAPI = false;
     private bool isGetResShopFromAPI = false;
+
+    public void OffCells()
+    {
+        foreach (var cell in gjcells)
+        {
+            cell.GetComponent<Collider2D>().enabled = false;
+        }
+    }
+
+    public void OnCells()
+    {
+        foreach (var cell in gjcells)
+        {
+            cell.GetComponent<Collider2D>().enabled = true;
+        }
+    }
+
+    public void EndTneGame(bool isWin,float gold)
+    {
+        if (isWin)
+        {
+            var resources = new Dictionary<string, string>
+            {
+                { "gold_changed", $"+{gold}" }
+            };
+
+            ChangeMoney($"Игрок прошел мини-игру, кол-во пчел: {balancer.mineCount}" , -gold);
+        }
+    }
+
     void Start()
     {
         plug.SetActive(true);
@@ -285,8 +316,12 @@ public class MainManager : MonoBehaviour
                 { "gold_changed", str }
             };
 
-            SendUserLog(comment, resourcesChanged);
+            if(money != 0)
+                SendUserLog(comment, resourcesChanged);
+            else
+                SendUserLog(comment, null);
         }
+
         UpdatePlayer();
     }
 
