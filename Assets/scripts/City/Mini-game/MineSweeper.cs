@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class MineSweeper : MonoBehaviour
 {
     [SerializeField] private Balancer balancer;
+    [SerializeField] private List<GameObject> gjcells;
     private int gridWidth;
     private int gridHeight;
     private int mineCount;
@@ -31,6 +32,11 @@ public class MineSweeper : MonoBehaviour
 
     public void StartGame()
     {
+        foreach(var cell in gjcells)
+        {
+            cell.GetComponent<Collider2D>().enabled = false;
+        }
+
         InitializeGrid();
         PlaceMines();
         livesText.text = $"Lives: {remainingLives}";
@@ -191,6 +197,11 @@ public class MineSweeper : MonoBehaviour
 
     void EndGame(bool won)
     {
+        foreach (var cell in gjcells)
+        {
+            cell.GetComponent<Collider2D>().enabled = true;
+        }
+
         gameEnded = true;
 
         foreach (var cell in cells)

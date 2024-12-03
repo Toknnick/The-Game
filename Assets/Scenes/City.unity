@@ -546,7 +546,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.78436136, y: 0}
   m_AnchorMax: {x: 1, y: 0.30948836}
-  m_AnchoredPosition: {x: 0.49752808, y: 0.2300415}
+  m_AnchoredPosition: {x: 0.4975586, y: 0.2300415}
   m_SizeDelta: {x: 0.99501, y: 0.46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &225400802
@@ -968,7 +968,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.7
+  m_fontSize: 36.8
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1760,6 +1760,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 726251783}
   m_CullTransparentMesh: 1
+--- !u!1 &731966947 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7897816878686104360, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
+  m_PrefabInstance: {fileID: 41553843}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &767651366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1825,6 +1830,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
+--- !u!1 &817746040 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7897816878686104360, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
+  m_PrefabInstance: {fileID: 1341738025}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &858112610
 GameObject:
   m_ObjectHideFlags: 0
@@ -2968,7 +2978,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.29344395, y: 0.12670816}
   m_AnchorMax: {x: 0.7094126, y: 0.87921405}
-  m_AnchoredPosition: {x: 0.59999084, y: 0.6000061}
+  m_AnchoredPosition: {x: 0.5999756, y: 0.6000061}
   m_SizeDelta: {x: 0.83000183, y: -3.1900024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1107329950
@@ -3167,6 +3177,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1140929708}
   m_CullTransparentMesh: 1
+--- !u!1 &1163321773 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7897816878686104360, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
+  m_PrefabInstance: {fileID: 1592756533}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1271910489 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7897816878686104356, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
@@ -3400,6 +3415,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7897816878686104357, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7897816878686104360, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
       propertyPath: m_Name
       value: Cell
@@ -3447,7 +3466,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.78200006}
   m_AnchorMax: {x: 0.07, y: 1}
-  m_AnchoredPosition: {x: 4.2059937, y: 2.5684052}
+  m_AnchoredPosition: {x: 4.2059937, y: 2.5684204}
   m_SizeDelta: {x: -5.014, y: -7.9268}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1379494665
@@ -3497,7 +3516,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.45
+  m_fontSize: 42.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3547,6 +3566,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379494663}
   m_CullTransparentMesh: 1
+--- !u!1 &1453619016 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7897816878686104360, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
+  m_PrefabInstance: {fileID: 767651366}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1482458284 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7897816878686104356, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
@@ -3884,7 +3908,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 39.85
+  m_fontSize: 68.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3938,6 +3962,11 @@ CanvasRenderer:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7897816878686104356, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
   m_PrefabInstance: {fileID: 1341738025}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1797587217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7897816878686104360, guid: be907c0f39f743c49b64fb621fd71c85, type: 3}
+  m_PrefabInstance: {fileID: 545433175}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1826659310
 GameObject:
@@ -4503,6 +4532,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balancer: {fileID: 201079368}
+  gjcells:
+  - {fileID: 817746040}
+  - {fileID: 1163321773}
+  - {fileID: 731966947}
+  - {fileID: 1797587217}
+  - {fileID: 1453619016}
   cellPrefab: {fileID: 3902941895597280820, guid: bc1ebf4fdcf005e49911a8bb1d822c88, type: 3}
   gridParent: {fileID: 1107329949}
   livesText: {fileID: 1379494665}
