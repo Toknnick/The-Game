@@ -45,6 +45,8 @@ public class BuildingInfoPanel : MonoBehaviour
     private void SetInfo()
     {
         BuildingImage.sprite = buildingManager.building.sprites[buildingManager.nowLVL - 1];
+        StartExperemnt.gameObject.SetActive(false);
+        BuildingInfoText.gameObject.SetActive(false);
 
         if (buildingManager.nowGPM > 0)
         {
@@ -74,6 +76,11 @@ public class BuildingInfoPanel : MonoBehaviour
             StartExperemnt.gameObject.SetActive(true);
             BuildingInfoText.gameObject.SetActive(true);
             BuildingInfoText.text = $"Для проведения опыта требуется {buildingManager.building.usingScript.coastForOneExperement} меда,\r\nрезультат улучшения: на {buildingManager.building.usingScript.minPercent}%-{buildingManager.building.usingScript.maxPercent}% меда в минуту";
+        }
+        if (buildingManager.building.type == Building.BuildingType.CityHall)
+        {
+            BuildingInfoText.gameObject.SetActive(true);
+            BuildingInfoText.text = $"Скоро здесь будет проводиться голосование...";
         }
     }
 }

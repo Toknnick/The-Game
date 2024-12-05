@@ -66,3 +66,7 @@ MonoBehaviour:
   laboratory_minPercent: 2
   laboratory_maxPercent: 5
   laboratory_addingPercent: 2
+  mainHouse_lvlUpCoast: 500
+  mainHouse_maxLVL: 1
+  goldForOne: 2
+  countOfHives: 8

@@ -31,6 +31,9 @@ public class Balancer : MonoBehaviour
     public int laboratory_minPercent;
     public int laboratory_maxPercent;
     public int laboratory_addingPercent;
+    [Header("Общий дом")]
+    public int mainHouse_lvlUpCoast;
+    public int mainHouse_maxLVL;
     [Header("Пасека")]
     public int goldForOne = 2;
     public int countOfHives = 8;
