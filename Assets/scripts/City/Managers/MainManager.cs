@@ -17,6 +17,7 @@ public class MainManager : MonoBehaviour
     [Space]
     [SerializeField] private List<Building> buildings;
     public SpeakingHeadmanager speakingHead;
+    [SerializeField] private SoundManager soundManager;
     [SerializeField] private GameObject plug;
     [SerializeField] private List<GameObject> gjcells;
 
@@ -212,6 +213,7 @@ public class MainManager : MonoBehaviour
         {
             if (buildingManager.nowLVL != buildingManager.building.maxLVL)
             {
+                soundManager.PlayLvlUp();
                 var resourcesShop = new Dictionary<string, string>
                 {
                     { "shops gold", $"+{buildingManager.building.lvlUpCoast}" }
@@ -228,18 +230,20 @@ public class MainManager : MonoBehaviour
                 goldText.text = nowGold.ToString();
 
                 string commentShop = "";
-                
+
 
                 if (buildingManager.building.type == Building.BuildingType.Laboratory)
                 {
                     commentShop = "Игрок обновил лабораторию";
                 }
-                else
+                else if (buildingManager.building.type == Building.BuildingType.House)
                 {
                     commentShop = "Игрок обновил дом";
                 }
-
-
+                else if (buildingManager.building.type == Building.BuildingType.CityHall)
+                {
+                    commentShop = "Игрок обновил общий дом";
+                }
 
                 UpdateShop(commentShop, resourcesShop);
             }

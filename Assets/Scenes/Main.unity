@@ -755,6 +755,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -932,6 +933,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b121ab5bd905bc49853645dfa7868c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background_clips:
+  - {fileID: 8300000, guid: 726996cb82444024e8fd6f802fa3d4db, type: 3}
+  - {fileID: 8300000, guid: f4545394b68ffd34c8d3958a87d6e5e2, type: 3}
+  - {fileID: 8300000, guid: a012dccf156f07848901e9c2b1bd8783, type: 3}
+  - {fileID: 8300000, guid: 6f236227535c05a48b69199def751ee4, type: 3}
+  lvl_up_clip: {fileID: 0}
+  audioSource: {fileID: 519420033}
+  volume: 0.5
 --- !u!1001 &681585679
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1589,6 +1610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainManager: {fileID: 0}
+  apiarymanager: {fileID: 0}
   balancer: {fileID: 0}
   gameUuid: c18376f6-6cf3-48ac-928c-69ec0e74f46b
 --- !u!114 &890371304
