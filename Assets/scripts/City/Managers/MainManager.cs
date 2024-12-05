@@ -73,7 +73,7 @@ public class MainManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(10); // Ждём 1 минуту
+            yield return new WaitForSeconds(60); // Ждём 1 минуту
 
             string comment = "Ежеменутное добавление меда";
             ChangeMoney(comment, nowGPM * -1);

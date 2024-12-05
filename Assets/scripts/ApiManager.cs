@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 public class ApiManager : MonoBehaviour
 {
     [SerializeField] private MainManager mainManager;
+    [SerializeField] private Apiarymanager apiarymanager;
     [SerializeField] private Balancer balancer;
     [SerializeField] private string gameUuid;
 
@@ -159,7 +160,11 @@ public class ApiManager : MonoBehaviour
                         float gold = response.resources.ContainsKey("gold") ? response.resources["gold"] : 0f;
                         float gpm = response.resources.ContainsKey("gpm") ? response.resources["gpm"] : 0f;
 
-                        mainManager.SetResources(gold, gpm);
+                        if (mainManager != null) 
+                            mainManager.SetResources(gold, gpm);
+
+                        if (apiarymanager != null)
+                            apiarymanager.SetResources(gold, gpm);
                     }
                 }
                 catch (System.Exception ex)
@@ -309,7 +314,8 @@ public class ApiManager : MonoBehaviour
                 if (response != null && response.resources != null && response.resources.Count > 0)
                 {
                     // Передаем данные в MainManager
-                    mainManager.SetShopResources(response.resources);
+                    if (mainManager != null)
+                        mainManager.SetShopResources(response.resources);
                 }
             }
             else

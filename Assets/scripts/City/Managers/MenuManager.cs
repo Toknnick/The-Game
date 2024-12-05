@@ -10,19 +10,23 @@ public class MenuManager : MonoBehaviour
 
     public void Show()
     {
-        mainManager.OffCells();
+        if(mainManager != null) 
+            mainManager.OffCells();
+
         this.gameObject.SetActive(true);
     }
 
     public void Hide()
     {
-        mainManager.OnCells();
+        if (mainManager != null)
+            mainManager.OnCells();
         this.gameObject.SetActive(false);
     }
 
     public void PlayTheGame()
     {
-        mineSweeper.StartGame();
+        if (mineSweeper != null)
+            mineSweeper.StartGame();
         this.gameObject.SetActive(false);
     }
 
