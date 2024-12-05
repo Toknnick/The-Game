@@ -12,7 +12,11 @@ public class ApiManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(GetPlayerResourcesCoro(balancer.userName));
+        if (balancer != null)
+        {
+            balancer.userName = PlayerPrefs.GetString("PlayerName", "DefaultName");
+            StartCoroutine(GetPlayerResourcesCoro(balancer.userName));
+        }
     }
 
     public void CreateShopLog(string comment, string playerName, string shopName, Dictionary<string, string> resourcesChanged)

@@ -13,6 +13,7 @@ public class SpeakingHeadmanager : MonoBehaviour
 
     public float typingSpeed = 0.01f; // Скорость печати (в секундах за символ)
     private Coroutine typingCoroutine;
+    private List<GameObject> panel;
 
     private int nowText = 0;
 
@@ -30,6 +31,14 @@ public class SpeakingHeadmanager : MonoBehaviour
         }
         else
         {
+            if (panel != null)
+            {
+                foreach (GameObject go in panel)
+                {
+                    go.SetActive(true);
+                }
+            }
+
             gameObject.SetActive(false);
         }
     }
@@ -45,8 +54,9 @@ public class SpeakingHeadmanager : MonoBehaviour
         typingCoroutine = null; // Обнуляем ссылку после завершения
     }
 
-    public void Open(List<string> textss, Sprite head)
+    public void Open(List<string> textss, Sprite head,List<GameObject> panel)
     {
+        this.panel = panel;
         speakingHead_Image.sprite = head;
         nowText = 0;
         texts = textss;

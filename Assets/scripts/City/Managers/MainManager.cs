@@ -59,47 +59,9 @@ public class MainManager : MonoBehaviour
 
     void Start()
     {
+        balancer.userName = PlayerPrefs.GetString("PlayerName", "DefaultName");
+        balancer.shopName = $"{balancer.userName}`s SHOP";
         plug.SetActive(true);
-        
-        // Пример вызова создания игрока с ресурсами gold и gpm
-        var resourcesUser = new Dictionary<string, float>
-        {
-            { "gold", balancer.startGold },
-            { "gpm", balancer.startGpm }
-        };
-
-        var resourcesShop = new Dictionary<string, float>
-        {
-            { "shops gold", nowGoldInShop } // Всегда сначала добавляем золото
-        };
-
-        // Добавляем здания в ресурсы
-        foreach (var building in buildings)
-        {
-            string buildingKey = building.type.ToString();
-
-            if (!resourcesShop.ContainsKey(buildingKey))
-            {
-                resourcesShop[buildingKey] = building.coast;
-            }
-            else
-            {
-                resourcesShop[buildingKey] += building.coast;
-            }
-        }
-
-        var re = resourcesShop;
-        //apiManager.CreatePlayer(balancer.userName, resourcesUser);
-        //apiManager.CreateShop(balancer.userName, balancer.shopName, resourcesShop);
-
-
-        Debug.Log("API:    Создание игрока в комментариях");
-        Debug.Log("API:    Создание магазина в комментариях");
-
-        //TODO: отправлять начальные данные при создании игрока
-        //nowGold = balancer.startGold;
-        //nowGPM = balancer.startGpm;
-
         goldText.text = nowGold.ToString();
         SetFromBalancer();
         //StartCoroutine(SetGold());
