@@ -14,6 +14,7 @@ public class MainManager : MonoBehaviour
     [SerializeField] private GameObject scrollView;
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Transform scrollViewContent;
+    [SerializeField] private GameObject prefabOfScrollElement;
     [Space]
     [SerializeField] private List<Building> buildings;
     public SpeakingHeadmanager speakingHead;
@@ -130,35 +131,9 @@ public class MainManager : MonoBehaviour
         foreach (Building building in buildings)
         {
             // Создаем объект-контейнер
-            GameObject buildingObject = new GameObject("BuildingElement");
-            RectTransform containerRect = buildingObject.AddComponent<RectTransform>();
-            VerticalLayoutGroup layout = buildingObject.AddComponent<VerticalLayoutGroup>();
-            layout.childAlignment = TextAnchor.UpperCenter;
-            layout.spacing = 15;
-
-            // Добавляем компонент Image
-            GameObject imageObject = new GameObject("Image");
-            Image image = imageObject.AddComponent<Image>();
-            image.sprite = building.sprites[0];
-            image.preserveAspect = true;
-            imageObject.transform.SetParent(buildingObject.transform, false);
-
-            // Добавляем компонент TextMeshProUGUI
-            GameObject textObject = new GameObject("BuildingText");
-            TextMeshProUGUI textComponent = textObject.AddComponent<TextMeshProUGUI>();
-            textComponent.text = "Цена: \n" + building.coast.ToString();
-            textComponent.autoSizeTextContainer = true;
-            textComponent.fontSizeMin = 0;
-            textComponent.fontSizeMax = 38;
-            textComponent.enableAutoSizing = true;
-            textComponent.alignment = TextAlignmentOptions.Center;
-            textObject.transform.SetParent(buildingObject.transform, false);
-
-            // Добавляем BoxCollider2D
-            BoxCollider2D boxCollider = buildingObject.AddComponent<BoxCollider2D>();
-            boxCollider.size = new Vector2(70, 100); // Примерный размер
-            buildingObject.transform.localScale = new Vector3(2, 2, 2);
-            buildingObject.transform.SetParent(scrollViewContent, false);
+            GameObject buildingObject = Instantiate(prefabOfScrollElement, scrollViewContent);
+            buildingObject.GetComponentInChildren<Image>().sprite = building.sprites[0];
+            buildingObject.GetComponentInChildren<TextMeshProUGUI>().text = "Стоймость: " + building.coast.ToString();
 
             // Добавляем script
             ScrollElement scrollElement = buildingObject.AddComponent<ScrollElement>();
