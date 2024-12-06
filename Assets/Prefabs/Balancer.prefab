@@ -47,24 +47,24 @@ MonoBehaviour:
   userName: GOD
   shopName: GOD`s SHOP
   game_uuid: c18376f6-6cf3-48ac-928c-69ec0e74f46b
-  startGold: 1000
-  startGpm: 10
+  startGold: 30
+  startGpm: 20
   goldForGame: 10
   gridWidth: 10
   gridHeight: 10
-  mineCount: 8
+  mineCount: 9
   lives: 3
-  house_coast: 200
-  house_lvlUpCoast: 500
+  house_coast: 40
+  house_lvlUpCoast: 25
   house_maxLVL: 3
-  house_gpm: 100
-  house_addingGpm: 50
-  laboratory_coast: 10
-  laboratory_lvlUpCoast: 300
+  house_gpm: 10
+  house_addingGpm: 5
+  laboratory_coast: 40
+  laboratory_lvlUpCoast: 50
   laboratory_maxLVL: 3
-  laboratory_coastForOneExperement: 50
-  laboratory_minPercent: 2
-  laboratory_maxPercent: 5
+  laboratory_coastForOneExperement: 10
+  laboratory_minPercent: 5
+  laboratory_maxPercent: 8
   laboratory_addingPercent: 2
   mainHouse_lvlUpCoast: 500
   mainHouse_maxLVL: 1

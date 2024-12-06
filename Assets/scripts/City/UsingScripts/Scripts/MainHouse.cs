@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MainHouse : UsingScript
 {
-    public override void Use(ScrollElement scrollElement)
+    public override void Use(ScrollElement scrollElement, int index)
     {
-        
+        scrollElement.buildingManager.index = index;
     }
 
     public override void Upgrade(BuildingManager buildingManager)

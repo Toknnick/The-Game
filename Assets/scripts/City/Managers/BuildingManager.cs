@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
 {
+    public int index;
     public MainManager mainManager;
     public GameObject cell;
     public Building building;

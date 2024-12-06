@@ -1,14 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Laboratory : UsingScript
 {
-    public override void Use(ScrollElement scrollElement)
+    public override void Use(ScrollElement scrollElement, int index)
     {
         if (scrollElement.building.maxLVL > 1)
         {
             scrollElement.buildingManager = scrollElement.cell.AddComponent<BuildingManager>();
+            scrollElement.buildingManager.index = index;
             scrollElement.buildingManager.mainManager = mainManager;
             scrollElement.buildingManager.building = scrollElement.building;
             scrollElement.buildingManager.cell = scrollElement.cell;

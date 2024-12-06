@@ -11,7 +11,7 @@ public class Building : MonoBehaviour
 
     public List<Sprite> sprites; // Хранит спрайт
     public UsingScript usingScript; // Хранит спрайт
-    [HideInInspector]public int coast; // Можно добавить описание или другие данные
+    [HideInInspector]public float coast; // Можно добавить описание или другие данные
     [HideInInspector] public int maxLVL; // Можно добавить описание или другие данные
-    [HideInInspector] public int lvlUpCoast; // Можно добавить описание или другие данные
+    [HideInInspector] public float lvlUpCoast; // Можно добавить описание или другие данные
 }

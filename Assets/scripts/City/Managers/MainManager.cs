@@ -8,8 +8,12 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
+    [SerializeField] List<GameObject> cells;
+    [Space]
     [SerializeField] private Balancer balancer;
     [SerializeField] private ApiManager apiManager;
+    [SerializeField] private Saver saver;
+    [Space]
     [SerializeField] private BuildingInfoPanel buildingInfoPanel;
     [SerializeField] private GameObject scrollView;
     [SerializeField] private TextMeshProUGUI goldText;
@@ -20,7 +24,6 @@ public class MainManager : MonoBehaviour
     public SpeakingHeadmanager speakingHead;
     [SerializeField] private SoundManager soundManager;
     [SerializeField] private GameObject plug;
-    [SerializeField] private List<GameObject> gjcells;
 
     [SerializeField] private TextOfSpeakHead TextOfSpeakHead;
 
@@ -29,10 +32,11 @@ public class MainManager : MonoBehaviour
     private float nowGoldInShop = 0;
     private bool isGetResUserFromAPI = false;
     private bool isGetResShopFromAPI = false;
+    private bool isLoadedBuildings = false;
 
     public void OffCells()
     {
-        foreach (var cell in gjcells)
+        foreach (var cell in cells)
         {
             cell.GetComponent<Collider2D>().enabled = false;
         }
@@ -40,7 +44,7 @@ public class MainManager : MonoBehaviour
 
     public void OnCells()
     {
-        foreach (var cell in gjcells)
+        foreach (var cell in cells)
         {
             cell.GetComponent<Collider2D>().enabled = true;
         }
@@ -66,10 +70,12 @@ public class MainManager : MonoBehaviour
         plug.SetActive(true);
         goldText.text = nowGold.ToString();
         SetFromBalancer();
-        //StartCoroutine(SetGold());
+        StartCoroutine(SetGold());
         apiManager.GetShopResources(balancer.userName, balancer.shopName);
         TextOfSpeakHead.SetText(speakingHead);
+        LoadGame();
     }
+
 
     IEnumerator SetGold()
     {
@@ -157,7 +163,7 @@ public class MainManager : MonoBehaviour
             goldText.text = nowGold.ToString();
             scrollElement.cell.GetComponent<SpriteRenderer>().sprite = scrollElement.building.sprites[0];
             scrollElement.cell.gameObject.name = scrollElement.building.type.ToString();
-            scrollElement.building.usingScript.Use(scrollElement);
+            scrollElement.building.usingScript.Use(scrollElement, cells.IndexOf(scrollElement.cell));
             scrollView.SetActive(false);
 
             string commentShop = "";
@@ -180,6 +186,65 @@ public class MainManager : MonoBehaviour
             scrollView.SetActive(false);
             Debug.Log($"нужно больше меда");
         }
+    }
+
+    private void SaveGame()
+    {
+        List<BuildingManager> buildingManagers = new List<BuildingManager>();
+        foreach (var cell in cells)
+        {
+            if (cell.GetComponent<Cell>() == null)
+            {
+                buildingManagers.Add(cell.gameObject.GetComponent<BuildingManager>());
+            }
+        }
+
+        saver.SaveBuildings(buildingManagers);
+    }
+
+    private void LoadGame()
+    {
+        List<BuildingManager> buildmanagers = saver.LoadBuildings();
+
+        foreach(var buildmanager in buildmanagers)
+        {
+            var existingManager = cells[buildmanager.index].GetComponent<BuildingManager>();
+
+            if (existingManager == null)
+            {
+                existingManager = cells[buildmanager.index].AddComponent<BuildingManager>();
+                Destroy(cells[buildmanager.index].GetComponent<Cell>());
+            }
+
+            if (existingManager != null)
+            {
+                // Перенос данных из загруженного BuildingManager в существующий
+                if (buildmanager.building.sprites[buildmanager.nowLVL - 1] != null)
+                    cells[buildmanager.index].GetComponent<SpriteRenderer>().sprite = buildmanager.building.sprites[buildmanager.nowLVL-1];
+                else
+                    cells[buildmanager.index].GetComponent<SpriteRenderer>().sprite = buildmanager.building.sprites.Last();
+
+                existingManager.index = buildmanager.index;
+                existingManager.mainManager = buildmanager.mainManager;
+                existingManager.building = buildmanager.building;
+                existingManager.nowGPM = buildmanager.nowGPM;
+                existingManager.nowLVL = buildmanager.nowLVL;
+                existingManager.building.usingScript = buildmanager.building.usingScript;
+            }
+            else
+            {
+                Debug.LogError($"BuildingManager отсутствует у объекта с индексом {buildmanager.index}.");
+            }
+        }
+
+
+
+
+
+        isLoadedBuildings = true;
+
+        if (isGetResUserFromAPI && isGetResShopFromAPI && isLoadedBuildings)
+            plug.SetActive(false);
     }
 
     public void Upgrade(BuildingManager buildingManager)
@@ -276,7 +341,7 @@ public class MainManager : MonoBehaviour
         ChangeMoney("", 0);
         isGetResUserFromAPI = true;
 
-        if (isGetResUserFromAPI && isGetResShopFromAPI)
+        if (isGetResUserFromAPI && isGetResShopFromAPI && isLoadedBuildings)
             plug.SetActive(false);
     }
 
@@ -311,7 +376,7 @@ public class MainManager : MonoBehaviour
 
         isGetResShopFromAPI = true;
 
-        if (isGetResUserFromAPI && isGetResShopFromAPI)
+        if (isGetResUserFromAPI && isGetResShopFromAPI && isLoadedBuildings)
             plug.SetActive(false);
 
     }
@@ -354,6 +419,7 @@ public class MainManager : MonoBehaviour
             }
         }
 
+        SaveGame();
         apiManager.UpdateShopResources(balancer.userName,balancer.shopName,resourcesShop);
         SendShopLog(comment, resourcesChanged);
     }

@@ -5,13 +5,14 @@ using UnityEngine.UIElements;
 
 public class House : UsingScript
 {
-    public override void Use(ScrollElement scrollElement)
+    public override void Use(ScrollElement scrollElement,int index)
     {
         mainManager.ChangeGPM(gpm,false);
 
         if (scrollElement.building.maxLVL > 1)
         {
             scrollElement.buildingManager = scrollElement.cell.AddComponent<BuildingManager>();
+            scrollElement.buildingManager.index = index;
             scrollElement.buildingManager.mainManager = mainManager;
             scrollElement.buildingManager.building = scrollElement.building;
             scrollElement.buildingManager.cell = scrollElement.cell;

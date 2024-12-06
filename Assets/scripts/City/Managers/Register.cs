@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
@@ -30,19 +31,29 @@ public class Register : MonoBehaviour
     private string Name;
     private bool isSee;
     private int nowGoldInShop = 0;
+    private string saveFilePath;
+    private void Awake()
+    {
+        saveFilePath = Path.Combine(Application.persistentDataPath, "buildings.json");
+    }
 
     void Start()
     {
-        /*
-        PlayerPrefs.DeleteKey("PlayerName");
-        PlayerPrefs.Save();
-        */
+       /* PlayerPrefs.DeleteKey("PlayerName");
+        PlayerPrefs.DeleteKey("SavedDate");
+        PlayerPrefs.Save();*/
+        
 
         Name = PlayerPrefs.GetString("PlayerName", "defNameOfHero123123121231231231231231$#$^$$@#@#&$%$^$^fdf231233123");
 
         if (Name == null || Name == "defNameOfHero123123121231231231231231$#$^$$@#@#&$%$^$^fdf231233123")
         {
             textOfSpeakHead.SetText(sphead);
+
+            if (File.Exists(saveFilePath))
+            {
+                File.Delete(saveFilePath);
+            }
         }
         else
         {
