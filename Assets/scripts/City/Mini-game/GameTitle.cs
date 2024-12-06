@@ -52,6 +52,11 @@ public class GameTitle : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public void HideImage()
+    {
+        dangerImage.gameObject.SetActive(false); // Скрываем изображение Danger
+    }
+
     public void SetMineCount(int mineCount)
     {
         if (mineCount > 0)

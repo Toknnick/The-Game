@@ -7,7 +7,8 @@ using TMPro;
 public class BuildingInfoPanel : MonoBehaviour
 {
     [SerializeField] private MainManager mainManager;
- 
+
+    [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private Image BuildingImage;
     [SerializeField] private TextMeshProUGUI GpmText;
     [SerializeField] private Button UpgradeButton;
@@ -44,6 +45,17 @@ public class BuildingInfoPanel : MonoBehaviour
 
     private void SetInfo()
     {
+        nameText.gameObject.SetActive(true);
+
+        if (buildingManager.building.type == Building.BuildingType.House)
+            nameText.text = "Дом\nУровень: " + buildingManager.nowLVL;
+        else if (buildingManager.building.type == Building.BuildingType.Laboratory)
+            nameText.text = "Лаборатория\nУровень: " + buildingManager.nowLVL;
+        else if (buildingManager.building.type == Building.BuildingType.CityHall)
+            nameText.text = "Общий дом\nУровень: " + buildingManager.nowLVL;
+        else
+            nameText.gameObject.SetActive(false);
+
         BuildingImage.sprite = buildingManager.building.sprites[buildingManager.nowLVL - 1];
         StartExperemnt.gameObject.SetActive(false);
         BuildingInfoText.gameObject.SetActive(false);

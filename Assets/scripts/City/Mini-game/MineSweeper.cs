@@ -27,6 +27,7 @@ public class MineSweeper : MonoBehaviour
 
     public void StartGame()
     {
+        gameEnded = false;
         panel.SetActive(true);
         gridWidth = balancer.gridWidth;
         gridHeight = balancer.gridHeight;
@@ -46,12 +47,6 @@ public class MineSweeper : MonoBehaviour
 
     void InitializeGrid()
     {
-        // Удаляем все существующие плитки из gridParent
-        foreach (Transform child in gridParent)
-        {
-            Destroy(child.gameObject);
-        }
-
         cells = new List<GameTitle>();
         cellsToReveal = gridWidth * gridHeight - mineCount;
 
@@ -77,6 +72,7 @@ public class MineSweeper : MonoBehaviour
                 GameObject cellObj = Instantiate(cellPrefab, gridParent);
                 GameTitle cell = cellObj.GetComponent<GameTitle>();
                 cell.Initialize();
+                //cell.button.onClick.RemoveAllListeners();
                 cell.button.onClick.AddListener(() => OnCellClicked(cell));
                 cells.Add(cell);
             }
@@ -99,11 +95,12 @@ public class MineSweeper : MonoBehaviour
         }
     }
 
-    void OnCellClicked(GameTitle cell)
+    public void OnCellClicked(GameTitle cell)
     {
         if (gameEnded || cell.isRevealed) return;
 
         cell.isRevealed = true;
+        cell.HideImage();
 
         if (cell.hasMine)
         {
@@ -205,6 +202,12 @@ public class MineSweeper : MonoBehaviour
 
     void EndGame(bool won)
     {
+        // Удаляем все существующие плитки из gridParent
+        foreach (Transform child in gridParent)
+        {
+            Destroy(child.gameObject);
+        }
+
         mainManager.OnCells();
 
         gameEnded = true;

@@ -37,6 +37,16 @@ public class Register : MonoBehaviour
         saveFilePath = Path.Combine(Application.persistentDataPath, "buildings.json");
     }
 
+    public void CloseGame()
+    {
+        Application.Quit();
+
+        // Это сообщение будет видно только в редакторе
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+    }
+
     void Start()
     {
        /* PlayerPrefs.DeleteKey("PlayerName");

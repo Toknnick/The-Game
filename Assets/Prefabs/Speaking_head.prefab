@@ -363,7 +363,7 @@ MonoBehaviour:
   texts: []
   speakingHead_text: {fileID: 2114813432796742561}
   speakingHead_Image: {fileID: 186498213967079244}
-  typingSpeed: 0.05
+  typingSpeed: 0.01
 --- !u!1 &5568373653695213338
 GameObject:
   m_ObjectHideFlags: 0

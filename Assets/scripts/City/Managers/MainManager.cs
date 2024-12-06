@@ -220,6 +220,8 @@ public class MainManager : MonoBehaviour
 
             if (existingManager != null)
             {
+                existingManager.cell = cells[buildmanager.index];
+                existingManager.cell.name = buildmanager.building.type.ToString();
                 // Перенос данных из загруженного BuildingManager в существующий
                 if (buildmanager.building.sprites[buildmanager.nowLVL - 1] != null)
                     cells[buildmanager.index].GetComponent<SpriteRenderer>().sprite = buildmanager.building.sprites[buildmanager.nowLVL-1];
