@@ -46,10 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   sprites:
-  - {fileID: 21300000, guid: fbd15a1cc0022a0489008abd49d039c3, type: 3}
-  - {fileID: 21300000, guid: fbd15a1cc0022a0489008abd49d039c3, type: 3}
-  - {fileID: 21300000, guid: fbd15a1cc0022a0489008abd49d039c3, type: 3}
+  - {fileID: 21300000, guid: 8d702e790f1ac07478cb0a40a1ff328a, type: 3}
+  - {fileID: 21300000, guid: 8d702e790f1ac07478cb0a40a1ff328a, type: 3}
+  - {fileID: 21300000, guid: 8d702e790f1ac07478cb0a40a1ff328a, type: 3}
   usingScript: {fileID: 5165560651188648926, guid: 2baf59f68d2d4d9478efa25dcc46d0b6, type: 3}
-  coast: 200
+  coast: 40
   maxLVL: 3
-  lvlUpCoast: 300
+  lvlUpCoast: 50

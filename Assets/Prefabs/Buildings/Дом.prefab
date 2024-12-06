@@ -46,9 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   sprites:
-  - {fileID: 21300000, guid: fbd15a1cc0022a0489008abd49d039c3, type: 3}
-  - {fileID: 21300000, guid: fbd15a1cc0022a0489008abd49d039c3, type: 3}
-  - {fileID: 21300000, guid: fbd15a1cc0022a0489008abd49d039c3, type: 3}
+  - {fileID: 21300000, guid: 581ba86d346348641ad1fa87fd265217, type: 3}
+  - {fileID: 21300000, guid: 73717586ec870d24cb2574a28c661225, type: 3}
+  - {fileID: 21300000, guid: 73717586ec870d24cb2574a28c661225, type: 3}
   usingScript: {fileID: -3532946970368583186, guid: 1dc1a9206bdf29d49901847254a2c44a, type: 3}
   coast: 200
   maxLVL: 3

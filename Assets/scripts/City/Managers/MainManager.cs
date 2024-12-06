@@ -161,9 +161,11 @@ public class MainManager : MonoBehaviour
             string comment = $"Куплина постройка - {scrollElement.building.type}";
             ChangeMoney(comment, scrollElement.building.coast);
             goldText.text = nowGold.ToString();
+
             scrollElement.cell.GetComponent<SpriteRenderer>().sprite = scrollElement.building.sprites[0];
             scrollElement.cell.gameObject.name = scrollElement.building.type.ToString();
             scrollElement.building.usingScript.Use(scrollElement, cells.IndexOf(scrollElement.cell));
+            Destroy(scrollElement.cell.gameObject.GetComponent<Cell>());
             scrollView.SetActive(false);
 
             string commentShop = "";
@@ -193,7 +195,7 @@ public class MainManager : MonoBehaviour
         List<BuildingManager> buildingManagers = new List<BuildingManager>();
         foreach (var cell in cells)
         {
-            if (cell.GetComponent<Cell>() == null)
+            if (cell.GetComponent<BuildingManager>() != null)
             {
                 buildingManagers.Add(cell.gameObject.GetComponent<BuildingManager>());
             }

@@ -18,6 +18,16 @@ public class Saver : MonoBehaviour
     {
         var data = new BuildingsData();
 
+       /* foreach(var building in buildings)
+        {
+            Debug.Log(building.index);
+            Debug.Log(building.building.type.ToString());
+            Debug.Log(building.nowLVL);
+            Debug.Log(building.building.maxLVL);
+            Debug.Log(building);
+            Debug.Log(" ");
+        }*/
+
         foreach (var building in buildings)
         {
             var buildingData = new BuildingData
